@@ -15,7 +15,7 @@ class _CounterPageState extends State<CounterPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Exemplo contador'),
+        title: const Text('Exemplo contadorr'),
       ),
       body: Column(
         children: [
