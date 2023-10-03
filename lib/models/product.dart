@@ -2,7 +2,7 @@ class Product {
   final String id;
   final String title;
   final String description;
-  final String price;
+  final double price;
   final String imageUrl;
   bool isFavorite;
 
@@ -15,5 +15,7 @@ class Product {
     this.isFavorite = false,
   });
 
-  void toggleFavorite() => isFavorite = !isFavorite;
+  void toggleFavorite() {
+    isFavorite = !isFavorite;
+  }
 }
