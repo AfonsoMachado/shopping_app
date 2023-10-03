@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_app/models/product.dart';
-import 'package:shopping_app/pages/product_detail.dart';
+import 'package:shopping_app/utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -31,8 +31,8 @@ class ProductItem extends StatelessWidget {
             product.imageUrl,
             fit: BoxFit.cover,
           ),
-          onTap: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (ctx) => ProductDetailPage(product: product))),
+          onTap: () => Navigator.of(context)
+              .pushNamed(AppRoutes.productDetail, arguments: product),
         ),
       ),
     );
