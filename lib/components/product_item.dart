@@ -17,7 +17,11 @@ class ProductItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         footer: GridTileBar(
-          title: Text(product.name, textAlign: TextAlign.center),
+          title: Text(
+            product.name,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13),
+          ),
           backgroundColor: Colors.black87,
           // O Consumer marca uma parte do código que será reconstruído onde precisa ser atualizado
           leading: Consumer<Product>(
