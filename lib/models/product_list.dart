@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:shopping_app/exceptions/http_exception.dart';
 import 'package:shopping_app/models/product.dart';
+import 'package:shopping_app/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final String _baseUrl = "${dotenv.env['FIREBASE_URL']}/products";
-
   final List<Product> _items = [];
 
   List<Product> get items => [..._items];
@@ -24,7 +22,8 @@ class ProductList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
 
-    final response = await http.get(Uri.parse('$_baseUrl.json'));
+    final response =
+        await http.get(Uri.parse('${Constants.productBaseUrl}.json'));
     if (response.body == 'null') return;
 
     Map<String, dynamic> data = jsonDecode(response.body);
@@ -63,7 +62,7 @@ class ProductList with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.productBaseUrl}/${product.id}.json'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -89,8 +88,8 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       // Exclui o produto no servidor
-      final response =
-          await http.delete(Uri.parse('$_baseUrl/${product.id}.json'));
+      final response = await http
+          .delete(Uri.parse('${Constants.productBaseUrl}/${product.id}.json'));
 
       // Caso dê erro na exclusão no servidor, o produto é inserido novamente
       if (response.statusCode >= 400) {
@@ -106,7 +105,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('${Constants.productBaseUrl}.json'),
       body: jsonEncode(
         {
           "name": product.name,
