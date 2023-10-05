@@ -22,8 +22,9 @@ class ProductList with ChangeNotifier {
 
   Future<void> loadProducts() async {
     final response = await http.get(Uri.parse(_baseUrl));
-    Map<String, dynamic> data = jsonDecode(response.body);
+    if (response.body == 'null') return;
 
+    Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
       _items.add(
         Product(
