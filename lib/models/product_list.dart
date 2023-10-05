@@ -4,12 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:shopping_app/data/dummy_data.dart';
 import 'package:shopping_app/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl = dotenv.env['FIREBASE_URL'];
-  final List<Product> _items = dummyProducts;
+  final String _baseUrl = "${dotenv.env['FIREBASE_URL']}/products.json";
+
+  final List<Product> _items = [];
 
   List<Product> get items => [..._items];
 
@@ -18,6 +18,25 @@ class ProductList with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+  }
+
+  Future<void> loadProducts() async {
+    final response = await http.get(Uri.parse(_baseUrl));
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    data.forEach((productId, productData) {
+      _items.add(
+        Product(
+          id: productId,
+          name: productData["name"],
+          description: productData["description"],
+          price: productData["price"],
+          imageUrl: productData["imageUrl"],
+          isFavorite: productData["isFavorite"],
+        ),
+      );
+    });
+    notifyListeners();
   }
 
   Future<void> saveProduct(Map<String, Object> data) {
@@ -58,7 +77,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl/products.json'),
+      Uri.parse(_baseUrl),
       body: jsonEncode(
         {
           "name": product.name,
