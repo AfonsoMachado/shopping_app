@@ -1,10 +1,14 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:shopping_app/data/dummy_data.dart';
 import 'package:shopping_app/models/product.dart';
 
 class ProductList with ChangeNotifier {
+  final _baseUrl = dotenv.env['FIREBASE_URL'];
   final List<Product> _items = dummyProducts;
 
   List<Product> get items => [..._items];
@@ -51,6 +55,19 @@ class ProductList with ChangeNotifier {
   }
 
   void addProduct(Product product) {
+    http.post(
+      Uri.parse('$_baseUrl/products.json'),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
+
     _items.add(product);
     // Notificando aos obeservers
     notifyListeners();
