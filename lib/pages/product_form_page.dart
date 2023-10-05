@@ -103,7 +103,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
           child: ListView(
             children: [
               TextFormField(
-                initialValue: _formData['name'].toString(),
+                initialValue: _formData['name']?.toString(),
                 decoration: const InputDecoration(labelText: 'Nome'),
                 textInputAction: TextInputAction.next,
                 // Coloca o foco no elemento seguinte
@@ -125,7 +125,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
               ),
               TextFormField(
-                initialValue: _formData['price'].toString(),
+                initialValue: _formData['price']?.toString(),
                 decoration: const InputDecoration(labelText: 'Preço'),
                 textInputAction: TextInputAction.next,
                 focusNode: _priceFocus,
@@ -147,7 +147,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
                 },
               ),
               TextFormField(
-                initialValue: _formData['description'].toString(),
+                initialValue: _formData['description']?.toString(),
                 decoration: const InputDecoration(labelText: 'Descrição'),
                 focusNode: _descriptionFocus,
                 keyboardType: TextInputType.multiline,
@@ -202,10 +202,14 @@ class _ProductFormPageState extends State<ProductFormPage> {
                     alignment: Alignment.center,
                     child: _imageUrlController.text.isEmpty
                         ? const Text('Informe a URL')
-                        : FittedBox(
-                            child: Image.network(
-                              _imageUrlController.text,
-                              fit: BoxFit.cover,
+                        : SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: FittedBox(
+                              child: Image.network(
+                                _imageUrlController.text,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                   )
