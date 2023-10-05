@@ -24,7 +24,7 @@ class _OrderWidgetState extends State<OrderWidget> {
             subtitle:
                 Text(DateFormat('dd/MM/yyyy hh:mm').format(widget.order.date)),
             trailing: IconButton(
-              icon: const Icon(Icons.expand_more),
+              icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
               onPressed: () {
                 setState(() {
                   _expanded = !_expanded;
@@ -47,7 +47,7 @@ class _OrderWidgetState extends State<OrderWidget> {
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        '${product.quantity}x R\$ ${product.price}',
+                        '${product.quantity}x R\$ ${product.price.toStringAsFixed(2)}',
                         style:
                             const TextStyle(fontSize: 16, color: Colors.grey),
                       )
