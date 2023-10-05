@@ -23,7 +23,7 @@ class AuthPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: double.infinity,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -52,6 +52,9 @@ class AuthPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 const AuthForm(),
               ],
