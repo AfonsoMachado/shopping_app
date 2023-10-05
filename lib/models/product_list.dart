@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:shopping_app/exceptions/http_exception.dart';
 import 'package:shopping_app/models/product.dart';
 
 class ProductList with ChangeNotifier {
@@ -77,13 +78,29 @@ class ProductList with ChangeNotifier {
     }
   }
 
-  void removeProduct(Product product) {
+  Future<void> removeProduct(Product product) async {
     // Verifica se é um produto válido e está presente dentro da lista
     int index = _items.indexWhere((p) => p.id == product.id);
 
     if (index >= 0) {
-      _items.removeWhere((p) => p.id == product.id);
+      // Exclui o product localmente
+      final product = _items[index];
+      _items.remove(product);
       notifyListeners();
+
+      // Exclui o produto no servidor
+      final response =
+          await http.delete(Uri.parse('$_baseUrl/${product.id}.json'));
+
+      // Caso dê erro na exclusão no servidor, o produto é inserido novamente
+      if (response.statusCode >= 400) {
+        _items.insert(index, product);
+        notifyListeners();
+        throw HttpException(
+          msg: 'Não foi possível excluir o produto',
+          statusCode: response.statusCode,
+        );
+      }
     }
   }
 
