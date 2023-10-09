@@ -1,13 +1,14 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Constants {
-  final baseUrl = "${dotenv.env['FIREBASE_URL']}";
+  static final _baseUrl = "${dotenv.env['FIREBASE_URL']}";
+  static final firebaseApiKey = "${dotenv.env['FIREBASE_API_KEY']}";
 
   static String get productBaseUrl {
-    return "${dotenv.env['FIREBASE_URL']}/products";
+    return "$_baseUrl/products";
   }
 
   static String get orderBaseUrl {
-    return "${dotenv.env['FIREBASE_URL']}/orders";
+    return "$_baseUrl/orders";
   }
 }

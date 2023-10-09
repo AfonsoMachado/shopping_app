@@ -43,10 +43,9 @@ class _AuthFormState extends State<AuthForm> {
 
     _formKey.currentState?.save();
     if (_isSignin()) {
-      //   Logar
+      await auth.signin(_authData['email']!, _authData['password']!);
     } else {
       await auth.signup(_authData['email']!, _authData['password']!);
-      //   registrar
     }
     setState(() => _isLoading = false);
   }

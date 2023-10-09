@@ -1,16 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:shopping_app/utils/constants.dart';
 
 class Auth with ChangeNotifier {
-  static final _url =
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${dotenv.env['FIREBASE_API_KEY']}';
+  Future<void> _authenticate(
+      String email, String password, String urlFragment) async {
+    final url =
+        'https://identitytoolkit.googleapis.com/v1/accounts:$urlFragment?key=${Constants.firebaseApiKey}';
 
-  Future<void> signup(String email, String password) async {
     final response = await http.post(
-      Uri.parse(_url),
+      Uri.parse(url),
       body: jsonEncode({
         'email': email,
         'password': password,
@@ -19,5 +20,13 @@ class Auth with ChangeNotifier {
     );
 
     print(jsonDecode(response.body));
+  }
+
+  Future<void> signup(String email, String password) async {
+    _authenticate(email, password, 'signUp');
+  }
+
+  Future<void> signin(String email, String password) async {
+    _authenticate(email, password, 'signInWithPassword');
   }
 }
