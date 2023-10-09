@@ -38,8 +38,15 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-              leading: const Icon(Icons.exit_to_app),
-              title: const Text('Sair'),
+              leading: Icon(
+                Icons.exit_to_app,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              title: Text(
+                'Sair',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
               onTap: () {
                 Provider.of<Auth>(context, listen: false).logout();
                 Navigator.of(context)
