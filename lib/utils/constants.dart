@@ -11,4 +11,8 @@ class Constants {
   static String get orderBaseUrl {
     return "$_baseUrl/orders";
   }
+
+  static String get userFavorites {
+    return "$_baseUrl/userFavorites";
+  }
 }

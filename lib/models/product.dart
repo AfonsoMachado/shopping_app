@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:shopping_app/utils/constants.dart';
 
 class Product with ChangeNotifier {
   final String id;
@@ -11,8 +11,6 @@ class Product with ChangeNotifier {
   final double price;
   final String imageUrl;
   bool isFavorite;
-
-  final String _baseUrl = "${dotenv.env['FIREBASE_URL']}/products";
 
   Product({
     required this.id,
@@ -29,12 +27,12 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavorite(String token) async {
+  Future<void> toggleFavorite(String token, String userId) async {
     try {
       _toggleFavorite();
-      final response = await http.patch(
-        Uri.parse('$_baseUrl/$id.json?auth=$token'),
-        body: jsonEncode({"isFavorite": isFavorite}),
+      final response = await http.put(
+        Uri.parse('${Constants.userFavorites}/$userId/$id.json?auth=$token'),
+        body: jsonEncode(isFavorite),
       );
 
       if (response.statusCode >= 400) {
