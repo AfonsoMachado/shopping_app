@@ -33,8 +33,13 @@ class MyApp extends StatelessWidget {
             return ProductList(auth.token ?? '', previous?.items ?? []);
           },
         ),
+        ChangeNotifierProxyProvider<Auth, OrderList>(
+          create: (_) => OrderList('', []),
+          update: (BuildContext context, Auth auth, OrderList? previous) {
+            return OrderList(auth.token ?? '', previous?.items ?? []);
+          },
+        ),
         ChangeNotifierProvider(create: (_) => Cart()),
-        ChangeNotifierProvider(create: (_) => OrderList()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

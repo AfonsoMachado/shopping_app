@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopping_app/models/auth.dart';
 import 'package:shopping_app/models/cart.dart';
 import 'package:shopping_app/models/product.dart';
 import 'package:shopping_app/utils/app_routes.dart';
@@ -12,6 +13,7 @@ class ProductGridItem extends StatelessWidget {
     // O listen false não atualiza a tela quando o provider é notificado
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -27,7 +29,7 @@ class ProductGridItem extends StatelessWidget {
           leading: Consumer<Product>(
             builder: (ctx, product, child) => IconButton(
               onPressed: () {
-                product.toggleFavorite();
+                product.toggleFavorite(auth.token ?? '');
               },
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
