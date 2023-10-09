@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopping_app/components/cart_item.dart';
 import 'package:shopping_app/models/cart.dart';
 import 'package:shopping_app/models/order_list.dart';
+import 'package:shopping_app/utils/app_routes.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -94,6 +95,9 @@ class _CartButtonState extends State<CartButton> {
                     ).addOrder(widget.cart);
                     widget.cart.clear();
                     setState(() => _isLoading = false);
+
+                    if (!context.mounted) return;
+                    Navigator.of(context).pushNamed(AppRoutes.orders);
                   },
             style: TextButton.styleFrom(
                 textStyle:
