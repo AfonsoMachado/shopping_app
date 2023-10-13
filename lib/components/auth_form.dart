@@ -115,10 +115,12 @@ class _AuthFormState extends State<AuthForm>
         borderRadius: BorderRadius.circular(10),
       ),
       elevation: 8,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeIn,
         padding: const EdgeInsets.all(16),
-        // height: _isSignin() ? 310 : 400,
-        height: _heightAnimation?.value.height ?? (_isSignin() ? 310 : 400),
+        height: _isSignin() ? 310 : 400,
+        // height: _heightAnimation?.value.height ?? (_isSignin() ? 310 : 400),
         width: deviceSize.width * 0.75,
         child: Form(
           key: _formKey,
